@@ -1,4 +1,4 @@
-import { assets } from "@/app/assets";
+import { assets } from "@/public";
 import Image from "next/image";
 import { FaTiktok } from "react-icons/fa";
 import { FaFacebookF, FaInstagram } from "react-icons/fa6";
