@@ -29,7 +29,7 @@ const NavBar = () => {
   const pathName = usePathname();
 
   return (
-    <header className="py-4">
+    <header className="py-4 px-40">
       <nav className="flex justify-between items-center">
         <Link href="/">
           <Image

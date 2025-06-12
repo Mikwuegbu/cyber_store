@@ -17,9 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`antialiased  overflow-x-hidden mx-auto px-40 container`}
-      >
+      <body className={`antialiased  overflow-x-hidden mx-auto container`}>
         <NavBar />
         {children}
         <Footer />
