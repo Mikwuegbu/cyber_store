@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Cyber Store | E-Store",
@@ -16,9 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased  overflow-x-hidden`}>
+      <body
+        className={`antialiased  overflow-x-hidden mx-auto px-40 container`}
+      >
         <NavBar />
         {children}
+        <Footer />
       </body>
     </html>
   );

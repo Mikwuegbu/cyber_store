@@ -1,5 +1,5 @@
 const Home = () => {
-  return <div>This is the Home</div>;
+  return <main className="min-h-screen">This is the Home</main>;
 };
 
 export default Home;
