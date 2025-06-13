@@ -26,10 +26,16 @@ const Categories = () => {
       <div className="flex justify-between">
         <h2 className="font-medium text-2xl">Browse by category</h2>
         <div className="gap-6 flex">
-          <button onClick={() => scroll("left")}>
+          <button
+            onClick={() => scroll("left")}
+            className="hover:cursor-pointer"
+          >
             <MdArrowBackIos size={20} />
           </button>
-          <button onClick={() => scroll("right")}>
+          <button
+            onClick={() => scroll("right")}
+            className="hover:cursor-pointer"
+          >
             <MdArrowForwardIos size={20} />
           </button>
         </div>
@@ -42,24 +48,69 @@ const Categories = () => {
           {
             icon: <HiOutlineDevicePhoneMobile className="text-2xl" />,
             label: "Phones",
+            link: "/phones",
           },
-          { icon: <IoWatchOutline size={32} />, label: "Smart Watches" },
-          { icon: <HiOutlineCamera size={32} />, label: "Cameras" },
-          { icon: <LiaHeadphonesSolid size={32} />, label: "Headphones" },
-          { icon: <IoIosLaptop size={32} />, label: "Computers" },
-          { icon: <IoGameControllerOutline size={32} />, label: "Gaming" },
-          { icon: <HiOutlineCamera size={32} />, label: "Cameras" },
-          { icon: <LiaHeadphonesSolid size={32} />, label: "Headphones" },
-          { icon: <IoIosLaptop size={32} />, label: "Computers" },
-          { icon: <IoGameControllerOutline size={32} />, label: "Gaming" },
-          { icon: <HiOutlineCamera size={32} />, label: "Cameras" },
-          { icon: <LiaHeadphonesSolid size={32} />, label: "Headphones" },
-          { icon: <IoIosLaptop size={32} />, label: "Computers" },
-          { icon: <IoGameControllerOutline size={32} />, label: "Gaming" },
+          {
+            icon: <IoWatchOutline size={32} />,
+            label: "Smart Watches",
+            link: "/smartwatches",
+          },
+          {
+            icon: <HiOutlineCamera size={32} />,
+            label: "Cameras",
+            link: "/cameras",
+          },
+          {
+            icon: <LiaHeadphonesSolid size={32} />,
+            label: "Headphones",
+            link: "/headphones",
+          },
+          {
+            icon: <IoIosLaptop size={32} />,
+            label: "Computers",
+            link: "/computers",
+          },
+
+          {
+            icon: <IoGameControllerOutline size={32} />,
+            label: "Gaming",
+            link: "/gaming",
+          },
+          {
+            icon: <HiOutlineCamera size={32} />,
+            label: "Cameras",
+            link: "/cameras",
+          },
+          {
+            icon: <HiOutlineDevicePhoneMobile className="text-2xl" />,
+            label: "Phones",
+            link: "/phones",
+          },
+          {
+            icon: <IoWatchOutline size={32} />,
+            label: "Smart Watches",
+            link: "/smartwatches",
+          },
+          {
+            icon: <LiaHeadphonesSolid size={32} />,
+            label: "Headphones",
+            link: "/headphones",
+          },
+          {
+            icon: <IoIosLaptop size={32} />,
+            label: "Computers",
+            link: "/computers",
+          },
+
+          {
+            icon: <IoGameControllerOutline size={32} />,
+            label: "Gaming",
+            link: "/gaming",
+          },
         ].map((item, index) => (
           <Link
             key={index}
-            href="/"
+            href={item.link}
             className="w-[16.66%] flex-shrink-0 h-32 bg-gray-100 rounded-lg p-4 grid place-items-center hover:bg-gray-200 transition-colors"
           >
             {item.icon}
