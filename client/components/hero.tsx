@@ -5,10 +5,10 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <main>
-      <section className="bg-black flex justify-between items-center px-40 ">
+      <section className="bg-black flex justify-around items-center px-40 ">
         <div className="text-white max-w-md p-2 m-4 gap-3 grid justify-start">
           <p>pro beyounf</p>
-          <p>pro beyound me coming home</p> <p>pro beyounf</p>{" "}
+          <p>pro beyound me coming home</p> <p>pro beyounf</p>
           <Link href="/">shop now</Link>
         </div>
         <div>
