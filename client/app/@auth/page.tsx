@@ -5,17 +5,25 @@ import { ClientOnly } from "@/components/client-only";
 import { ForgotForm } from "@/components/forgot-form";
 import { VerifyForm } from "@/components/verify-otp-form";
 
-export default function AuthModalPage({
-  searchParams,
-}: {
-  readonly searchParams: {
-    readonly [key: string]: string | string[] | undefined;
-  };
-}) {
-  const showLogin = searchParams.login === "true";
-  const showSignup = searchParams.signup === "true";
-  const showForgot = searchParams.forgot === "true";
-  const showVerify = searchParams.verify === "true";
+interface SearchParams {
+  login?: string;
+  signup?: string;
+  forgot?: string;
+  verify?: string;
+}
+
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function AuthModalPage({ searchParams }: Readonly<Props>) {
+  // Wait for all searchParams to be resolved
+  const params = await searchParams;
+
+  const showLogin = params.login === "true";
+  const showSignup = params.signup === "true";
+  const showForgot = params.forgot === "true";
+  const showVerify = params.verify === "true";
 
   if (!(showLogin || showSignup || showForgot || showVerify)) return null;
 
