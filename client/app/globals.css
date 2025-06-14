@@ -11,3 +11,12 @@ body {
   color: var(--foreground);
   font-family: "Inter", sans-serif;
 }
+
+/* hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
