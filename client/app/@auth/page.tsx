@@ -2,6 +2,8 @@ import { AuthModal } from "@/components/auth-modal";
 import { LoginForm } from "@/components/login-form";
 import { SignupForm } from "@/components/signup-form";
 import { ClientOnly } from "@/components/client-only";
+import { ForgotForm } from "@/components/forgot-form";
+import { VerifyForm } from "@/components/verify-otp-form";
 
 export default function AuthModalPage({
   searchParams,
@@ -15,9 +17,7 @@ export default function AuthModalPage({
   const showForgot = searchParams.forgot === "true";
   const showVerify = searchParams.verify === "true";
 
-  if (!showLogin && !showSignup) {
-    return null;
-  }
+  if (!(showLogin || showSignup || showForgot || showVerify)) return null;
 
   return (
     <ClientOnly>
@@ -33,12 +33,12 @@ export default function AuthModalPage({
       )}
       {showForgot && (
         <AuthModal title="Forgot password">
-          <LoginForm />
+          <ForgotForm />
         </AuthModal>
       )}
       {showVerify && (
         <AuthModal title="Verify your account">
-          <LoginForm />
+          <VerifyForm />
         </AuthModal>
       )}
     </ClientOnly>

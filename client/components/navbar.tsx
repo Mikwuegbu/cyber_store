@@ -36,7 +36,7 @@ const NavBar = () => {
 
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    push("/?login=true");
+    push("/?signup=true");
   };
 
   return (
