@@ -1,0 +1,46 @@
+import { AuthModal } from "@/components/auth-modal";
+import { LoginForm } from "@/components/login-form";
+import { SignupForm } from "@/components/signup-form";
+import { ClientOnly } from "@/components/client-only";
+import { ForgotForm } from "@/components/forgot-form";
+import { VerifyForm } from "@/components/verify-otp-form";
+
+export default function AuthModalPage({
+  searchParams,
+}: {
+  readonly searchParams: {
+    readonly [key: string]: string | string[] | undefined;
+  };
+}) {
+  const showLogin = searchParams.login === "true";
+  const showSignup = searchParams.signup === "true";
+  const showForgot = searchParams.forgot === "true";
+  const showVerify = searchParams.verify === "true";
+
+  if (!(showLogin || showSignup || showForgot || showVerify)) return null;
+
+  return (
+    <ClientOnly>
+      {showLogin && (
+        <AuthModal title="Login to your account">
+          <LoginForm />
+        </AuthModal>
+      )}
+      {showSignup && (
+        <AuthModal title="Create an account">
+          <SignupForm />
+        </AuthModal>
+      )}
+      {showForgot && (
+        <AuthModal title="Forgot password">
+          <ForgotForm />
+        </AuthModal>
+      )}
+      {showVerify && (
+        <AuthModal title="Verify your account">
+          <VerifyForm />
+        </AuthModal>
+      )}
+    </ClientOnly>
+  );
+}

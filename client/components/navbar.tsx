@@ -3,7 +3,7 @@
 import { assets } from "@/public";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IoSearch, IoCartOutline } from "react-icons/io5";
 
 const navLinks = [
@@ -27,6 +27,17 @@ const navLinks = [
 
 const NavBar = () => {
   const pathName = usePathname();
+  const { push } = useRouter();
+
+  const handleLoginClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    push("/?login=true");
+  };
+
+  const handleRegisterClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    push("/?signup=true");
+  };
 
   return (
     <header className="py-4 px-40">
@@ -62,12 +73,12 @@ const NavBar = () => {
           <Link href="/cart">
             <IoCartOutline size={24} className="cursor-pointer" />
           </Link>
-          <Link href="/login" className="hover:border-b-2">
+          <button onClick={handleLoginClick} className="hover:border-b-2">
             Login
-          </Link>
-          <Link href="/register" className="hover:border-b-2">
+          </button>
+          <button onClick={handleRegisterClick} className="hover:border-b-2">
             Register
-          </Link>
+          </button>
         </div>
       </nav>
     </header>

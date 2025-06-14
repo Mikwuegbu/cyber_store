@@ -12,14 +12,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  auth,
 }: Readonly<{
   children: React.ReactNode;
+  auth: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={`antialiased  overflow-x-hidden mx-auto container`}>
         <NavBar />
         {children}
+        {auth}
         <Footer />
       </body>
     </html>
