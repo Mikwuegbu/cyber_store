@@ -4,6 +4,7 @@ import hero from "./hero.png";
 import playstation from "./PlayStation.png";
 import airpod from "./airpod.png";
 import applevission from "./applevission.png";
+import macbook from "./MacBook.png";
 
 export const assets = {
   logo,
@@ -12,4 +13,5 @@ export const assets = {
   playstation,
   airpod,
   applevission,
+  macbook,
 };
