@@ -9,6 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 export function VerifyForm() {
   const [email, setEmail] = useState("");
@@ -23,10 +29,10 @@ export function VerifyForm() {
   //   setIsLoading(true);
   // };
 
-  const handleSignupClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    replace("/?signup=true");
-  };
+  // const handleSignupClick = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   replace("/?signup=true");
+  // };
 
   return (
     <form className="space-y-4">
@@ -36,46 +42,36 @@ export function VerifyForm() {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="password">Password</Label>
-          <Button
-            variant="link"
-            className="p-0 h-auto"
-            onClick={() => replace("/?forgot=true")}
-          >
-            Forgot password?
-          </Button>
+      <div className="space-y-8">
+        <Label>Enter 6-digit PIN from userEmail</Label>
+
+        <div className="grid justify-center">
+          <InputOTP maxLength={6}>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
         </div>
-        <Input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
       </div>
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Logging in..." : "Login"}
+      <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+        {isLoading ? "Verifying..." : "Verify"}
       </Button>
       <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
+        Didn&apos;t recieve an OTP?{" "}
         <Button
           variant="link"
           className="p-0 h-auto"
-          onClick={handleSignupClick}
+          // onClick={handleSignupClick}
         >
-          Sign up
+          Click
         </Button>
       </div>
     </form>

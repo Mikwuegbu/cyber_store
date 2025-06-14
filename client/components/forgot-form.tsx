@@ -3,10 +3,8 @@
 import type React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/auth_store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -25,19 +23,19 @@ export function ForgotForm() {
 
   const handleSignupClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    replace("/?signup=true");
+    replace("/?login=true");
   };
 
   return (
-    <form className="space-y-4">
+    <form className="space-y-6">
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+      <p>Enter your registration email</p>
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
@@ -46,36 +44,17 @@ export function ForgotForm() {
           required
         />
       </div>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="password">Password</Label>
-          <Button
-            variant="link"
-            className="p-0 h-auto"
-            onClick={() => replace("/?forgot=true")}
-          >
-            Forgot password?
-          </Button>
-        </div>
-        <Input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Logging in..." : "Login"}
+        {isLoading ? "Resetting..." : "Reset"}
       </Button>
       <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
+        Already remember your password?{" "}
         <Button
           variant="link"
           className="p-0 h-auto"
           onClick={handleSignupClick}
         >
-          Sign up
+          Login
         </Button>
       </div>
     </form>
