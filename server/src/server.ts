@@ -1,18 +1,19 @@
-import express from "express";
-import morgan from "morgan";
-import "dotenv/config";
+import { NODE_ENV, PORT } from "./configs/env";
+import connectDB from "./configs/db";
+import app from "./app";
 
-const app = express();
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(
+        `Server running at http://localhost:${PORT} on ${NODE_ENV} mode`,
+      );
+    });
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+    process.exit(1);
+  }
+};
 
-// dev logger
-app.use(morgan("dev"));
-
-const port = process.env.PORT ?? 5000;
-
-app.get("/", (_req, res) => {
-  res.send("Hello World!");
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+startServer();
