@@ -9,9 +9,6 @@ export const registerSchema = z.object({
     .regex(/^(?=.*[A-Za-z])(?=.*\d)/, {
       message: "Password must contain at least one letter and one number",
     }),
-  role: z.enum(["customer", "admin"], {
-    errorMap: () => ({ message: "Invalid role" }),
-  }),
 });
 
 export const loginSchema = z.object({
