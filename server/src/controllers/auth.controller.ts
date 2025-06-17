@@ -1,32 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catch_async";
-import crypto from "crypto";
 import User from "../models/user.model";
-
 import { StatusCodes } from "http-status-codes";
-import { createClient } from "redis";
 import { sendEmail } from "../services/email.service";
 import AppError from "../utils/app_error";
-
-const OTP_EXPIRY = 300; // 5 minutes in seconds
-
-const redisClient = createClient({
-  url: "redis://127.0.0.1:6379",
-});
-const connectRedis = async () => {
-  await redisClient.connect().catch((err) => {
-    console.error("Redis connection error:", err);
-  });
-};
-connectRedis();
-
-const saveOtp = async (email: string, otp: string) => {
-  await redisClient.setEx(`otp:${email}`, OTP_EXPIRY, otp);
-};
-
-export const generateOtp = (): string => {
-  return crypto.randomInt(100000, 999999).toString();
-};
+import {
+  connectRedis,
+  deleteOTP,
+  generateOtp,
+  getOtp,
+  saveOtp,
+} from "../utils/generateOTP";
 
 // register user
 export const register = catchAsync(
@@ -43,6 +27,7 @@ export const register = catchAsync(
     }
 
     const otp = generateOtp();
+    await connectRedis();
     await saveOtp(email, otp);
 
     try {
@@ -89,14 +74,14 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
     return next(new AppError("User not found.", StatusCodes.NOT_FOUND));
   }
 
-  const storedToken = await redisClient.get(`otp:${email}`);
+  const storedToken = await getOtp(email);
 
   if (!storedToken || storedToken !== token) {
     return next(
       new AppError("Invalid or expired OTP.", StatusCodes.BAD_REQUEST),
     );
   }
-  await redisClient.del(`otp:${email}`);
+  await deleteOTP(email);
 
   user.isVerified = true;
   await user.save({ validateBeforeSave: false }); // Bypass password pre-save hook if not modified

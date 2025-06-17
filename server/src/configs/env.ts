@@ -4,6 +4,10 @@ export const PORT = process.env.PORT ?? 5000;
 export const MONGO_URI = process.env.MONGO_URI!;
 export const NODE_ENV = process.env.NODE_ENV ?? "development";
 
+export const REDIS_HOST = process.env.REDIS_HOST;
+export const REDIS_PORT = process.env.REDIS_PORT;
+export const REDIS_PASS = process.env.REDIS_PASS;
+
 export const JWT_SECRET = process.env.JWT_SECRET!;
 export const JWT_ACCESS_TOKEN_EXPIRES_IN =
   process.env.JWT_ACCESS_TOKEN_EXPIRES_IN!;
