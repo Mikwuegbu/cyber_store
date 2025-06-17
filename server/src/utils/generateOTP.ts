@@ -23,14 +23,25 @@ export const generateOtp = (): string => {
   return crypto.randomInt(100000, 999999).toString();
 };
 
-export const saveOtp = async (email: string, otp: string) => {
-  await redisClient.setEx(`otp:${email}`, OTP_EXPIRY, otp);
+export type ItempData = {
+  displayname: string;
+  email: string;
+  password: string;
+  otp: string;
 };
 
-export const getOtp = async (email: string) => {
+export const saveTempData = async (userData: ItempData) => {
+  await redisClient.setEx(
+    `otp:${userData.email}`,
+    OTP_EXPIRY,
+    JSON.stringify(userData), // 🔒 Serialize before saving
+  );
+};
+
+export const getTempData = async (email: string) => {
   return await redisClient.get(`otp:${email}`);
 };
 
-export const deleteOTP = async (email: string) => {
+export const deleteTempData = async (email: string) => {
   await redisClient.del(`otp:${email}`);
 };

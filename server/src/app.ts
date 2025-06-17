@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.route";
+import { COOKIE_SECRET } from "./configs/env";
 
 // Express app
 const app = express();
@@ -11,7 +12,7 @@ app.use(morgan("dev"));
 
 // cors
 app.use(cors());
-app.use(cookieParser());
+app.use(cookieParser(COOKIE_SECRET));
 
 // data sanitization against NoSQL query injection
 // app.use(mongoSanitize());

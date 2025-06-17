@@ -6,11 +6,15 @@ import { sendEmail } from "../services/email.service";
 import AppError from "../utils/app_error";
 import {
   connectRedis,
-  deleteOTP,
+  deleteTempData,
   generateOtp,
-  getOtp,
-  saveOtp,
+  getTempData,
+  ItempData,
+  saveTempData,
 } from "../utils/generateOTP";
+import { createSendToken } from "../utils/jwt";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../configs/env";
 
 // register user
 export const register = catchAsync(
@@ -28,7 +32,12 @@ export const register = catchAsync(
 
     const otp = generateOtp();
     await connectRedis();
-    await saveOtp(email, otp);
+    await saveTempData({
+      displayname,
+      email,
+      password,
+      otp,
+    });
 
     try {
       await sendEmail({
@@ -44,17 +53,11 @@ export const register = catchAsync(
         </div>`,
       });
 
-      await User.create({
-        displayname,
-        email,
-        password,
-      });
       res.status(StatusCodes.OK).json({
         status: "success",
         message: "OTP sent to your email for verification.",
       });
     } catch (err: any) {
-      await User.findOneAndDelete({ email });
       console.log(err);
 
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -69,27 +72,86 @@ export const register = catchAsync(
 export const verifyEmail = catchAsync(async (req, res, next) => {
   const { email, token } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) {
-    return next(new AppError("User not found.", StatusCodes.NOT_FOUND));
+  const tempData = await getTempData(email);
+  if (!tempData) {
+    return next(
+      new AppError(
+        "Something happened, please retry again",
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      ),
+    );
   }
 
-  const storedToken = await getOtp(email);
+  const data: ItempData = JSON.parse(tempData);
 
-  if (!storedToken || storedToken !== token) {
+  if (!tempData || data.otp !== token) {
     return next(
       new AppError("Invalid or expired OTP.", StatusCodes.BAD_REQUEST),
     );
   }
-  await deleteOTP(email);
 
-  user.isVerified = true;
-  await user.save({ validateBeforeSave: false }); // Bypass password pre-save hook if not modified
+  await User.create({
+    email: data.email,
+    displayname: data.displayname,
+    password: data.password,
+    isVerified: true,
+  });
+  await deleteTempData(email);
 
   res.status(StatusCodes.OK).json({
     status: "success",
     message: "Email verified successfully.",
   });
-
-  // createSendToken(user, 200, res); // Log in the user after verification
 });
+
+// login user
+export const login = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(new AppError("Please provide email and password!", 400));
+    }
+
+    const user = await User.findOne({ email }).select("+password");
+
+    if (!user || !(await user.comparePassword(password))) {
+      return next(
+        new AppError("Incorrect email or password", StatusCodes.UNAUTHORIZED),
+      );
+    }
+
+    createSendToken(user, 200, res);
+    await user.save();
+  },
+);
+
+// refresh user token
+export const refreshAccessToken = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken } = req.signedCookies;
+
+    if (!refreshToken) {
+      return next(new AppError("Refresh token is required.", 400));
+    }
+
+    try {
+      const decoded = jwt.verify(refreshToken, JWT_SECRET) as {
+        userId: string;
+      };
+      const user = await User.findById(decoded.userId);
+
+      if (!user || user.token !== refreshToken) {
+        return next(new AppError("Invalid refresh token.", 401));
+      }
+
+      createSendToken(user, 200, res);
+    } catch (err) {
+      console.log(err);
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        status: "failed",
+        message: "Invalid Token!",
+      });
+    }
+  },
+);

@@ -21,7 +21,7 @@ export const protect = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     //  Get token from cookie
     let token: string | undefined;
-    if (req.cookies.accessToken) {
+    if (req.signedCookies.accessToken) {
       token = req.cookies.accessToken;
     }
 

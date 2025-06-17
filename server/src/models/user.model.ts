@@ -6,9 +6,10 @@ import {
   JWT_REFRESH_TOKEN_EXPIRES_IN,
   JWT_SECRET,
 } from "../configs/env";
+import { IUserSchema } from "../types";
 
 // --User schema--
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<IUserSchema>(
   {
     displayname: {
       type: String,
@@ -54,6 +55,7 @@ userSchema.pre("save", async function (next) {
     return next();
   }
   const salt = await bcrypt.genSalt(10);
+  if (!this.password) return;
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
@@ -67,7 +69,7 @@ userSchema.methods.comparePassword = async function (
 
 // Instance method to generate JWT Access Token
 userSchema.methods.getAccessToken = function (): string {
-  return jwt.sign({ userId: this._id }, JWT_SECRET, {
+  return jwt.sign({ userId: this._id, type: "access" }, JWT_SECRET, {
     expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
   } as SignOptions);
 };
