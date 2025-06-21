@@ -90,18 +90,18 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
     );
   }
 
-  await User.create({
+  const user = await User.create({
     email: data.email,
     displayname: data.displayname,
     password: data.password,
     isVerified: true,
   });
+
   await deleteTempData(email);
 
-  res.status(StatusCodes.OK).json({
-    status: "success",
-    message: "Email verified successfully.",
-  });
+  createSendToken(user, StatusCodes.OK, res);
+
+  await user.save();
 });
 
 // login user
