@@ -33,5 +33,7 @@ export const createSendToken = (
 
   res.status(statusCode).json({
     status: "success",
+    accessToken,
+    refreshToken,
   });
 };
