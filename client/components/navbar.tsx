@@ -1,10 +1,13 @@
 "use client";
 
 import { assets } from "@/public";
+import { useAuthStore } from "@/store/auth_store";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoSearch, IoCartOutline } from "react-icons/io5";
+import { LiaUserCircleSolid } from "react-icons/lia";
+import { LuCircleUserRound } from "react-icons/lu";
 
 const navLinks = [
   {
@@ -28,6 +31,7 @@ const navLinks = [
 const NavBar = () => {
   const pathName = usePathname();
   const { push } = useRouter();
+  const { isAuthenticated } = useAuthStore();
 
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -73,12 +77,21 @@ const NavBar = () => {
           <Link href="/cart">
             <IoCartOutline size={24} className="cursor-pointer" />
           </Link>
-          <button onClick={handleLoginClick} className="hover:border-b-2">
-            Login
-          </button>
-          <button onClick={handleRegisterClick} className="hover:border-b-2">
-            Register
-          </button>
+          {isAuthenticated ? (
+            <LiaUserCircleSolid size={24} className="cursor-pointer" />
+          ) : (
+            <div className="flex gap-4 items-center">
+              <button onClick={handleLoginClick} className="hover:border-b-2">
+                Login
+              </button>
+              <button
+                onClick={handleRegisterClick}
+                className="hover:border-b-2"
+              >
+                Register
+              </button>
+            </div>
+          )}
         </div>
       </nav>
     </header>

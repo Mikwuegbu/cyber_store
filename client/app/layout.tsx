@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ReactQueryWrapper from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "Cyber Store | E-Store",
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased  overflow-x-hidden mx-auto container`}>
-        <NavBar />
-        {children}
-        {auth}
-        <Footer />
+        <ReactQueryWrapper>
+          <NavBar />
+          {children}
+          {auth}
+          <Footer />
+        </ReactQueryWrapper>
       </body>
     </html>
   );
