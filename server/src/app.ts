@@ -11,7 +11,12 @@ const app = express();
 app.use(morgan("dev"));
 
 // cors
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://cyber-store.vercel.app"],
+    credentials: true, // Allow cookies to be sent
+  }),
+);
 app.use(cookieParser(COOKIE_SECRET));
 
 // data sanitization against NoSQL query injection

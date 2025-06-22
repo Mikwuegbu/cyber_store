@@ -25,7 +25,7 @@ export const register = catchAsync(
     if (user) {
       res.status(StatusCodes.CONFLICT).json({
         status: "error",
-        message: "User already exists",
+        message: "Email already exists",
       });
       return next();
     }
@@ -75,10 +75,10 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
   const tempData = await getTempData(email);
   if (!tempData) {
     return next(
-      new AppError(
-        "Something happened, please retry again",
-        StatusCodes.INTERNAL_SERVER_ERROR,
-      ),
+      res.status(StatusCodes.NOT_FOUND).json({
+        status: "error",
+        message: "Data not found. Please register again.",
+      }),
     );
   }
 
@@ -86,7 +86,10 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
 
   if (!tempData || data.otp !== token) {
     return next(
-      new AppError("Invalid or expired OTP.", StatusCodes.BAD_REQUEST),
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "error",
+        message: "Invalid or expired OTP.",
+      }),
     );
   }
 
@@ -110,14 +113,22 @@ export const login = catchAsync(
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new AppError("Please provide email and password!", 400));
+      return next(
+        res.status(StatusCodes.BAD_REQUEST).json({
+          status: "error",
+          message: "Please provide email and password",
+        }),
+      );
     }
 
     const user = await User.findOne({ email }).select("+password");
 
     if (!user || !(await user.comparePassword(password))) {
       return next(
-        new AppError("Incorrect email or password", StatusCodes.UNAUTHORIZED),
+        res.status(StatusCodes.UNAUTHORIZED).json({
+          status: "error",
+          message: "Invalid email or password",
+        }),
       );
     }
 
@@ -132,7 +143,12 @@ export const refreshAccessToken = catchAsync(
     const { refreshToken } = req.signedCookies;
 
     if (!refreshToken) {
-      return next(new AppError("Refresh token is required.", 400));
+      return next(
+        res.status(StatusCodes.UNAUTHORIZED).json({
+          status: "error",
+          message: "Refresh token not found",
+        }),
+      );
     }
 
     try {
@@ -142,16 +158,62 @@ export const refreshAccessToken = catchAsync(
       const user = await User.findById(decoded.userId);
 
       if (!user || user.token !== refreshToken) {
-        return next(new AppError("Invalid refresh token.", 401));
+        return next(
+          res.status(StatusCodes.UNAUTHORIZED).json({
+            status: "error",
+            message: "Invalid refresh token",
+          }),
+        );
       }
 
       createSendToken(user, 200, res);
+      await user.save();
     } catch (err) {
       console.log(err);
-      return res.status(StatusCodes.UNAUTHORIZED).json({
-        status: "failed",
-        message: "Invalid Token!",
-      });
+      return next(
+        res.status(StatusCodes.UNAUTHORIZED).json({
+          status: "failed",
+          message: "Invalid Token!",
+        }),
+      );
     }
+  },
+);
+
+//logout user
+export const logout = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // Invalidate refresh token in DB if stored
+      const { refreshToken } = req.signedCookies;
+      if (refreshToken) {
+        const decoded = jwt.verify(refreshToken, JWT_SECRET) as {
+          userId: string;
+        };
+        const user = await User.findById(decoded.userId);
+        if (user) {
+          user.token = undefined;
+          await user.save();
+        }
+      }
+    } catch (err) {
+      console.error("Error during logout:", err);
+      // Ignore errors for logout robustness
+    }
+
+    // Clear cookies
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      signed: true,
+    });
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      signed: true,
+    });
+
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      message: "Logged out successfully",
+    });
   },
 );

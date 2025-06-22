@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   login,
+  logout,
   refreshAccessToken,
   register,
   verifyEmail,
@@ -18,5 +19,6 @@ router.post("/register", validate(registerSchema), register);
 router.post("/verify-email", validate(verifySchema), verifyEmail);
 router.post("/login", validate(loginSchema), login);
 router.post("/refresh-token", refreshAccessToken);
+router.post("/logout", logout);
 
 export default router;

@@ -2,16 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type User = {
-  name: string;
   email: string;
+  displayname: string;
 } | null;
 
 interface AuthState {
   isAuthenticated: boolean;
   user: User;
-  token: string | null;
-  login: (user: User, token: string) => void;
+  login: () => void;
   logout: () => void;
+  setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -19,12 +19,14 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       isAuthenticated: false,
       user: null,
-      token: null,
-      login: (user, token) => {
-        set({ isAuthenticated: true, user, token });
+      setUser: (user) => {
+        set({ user });
+      },
+      login: () => {
+        set({ isAuthenticated: true });
       },
       logout: () => {
-        set({ isAuthenticated: false, user: null, token: null });
+        set({ isAuthenticated: false });
       },
     }),
     {

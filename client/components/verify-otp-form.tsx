@@ -2,10 +2,8 @@
 
 import type React from "react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth_store";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -15,19 +13,42 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useMutation } from "@tanstack/react-query";
+import { authServices } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
 
 export function VerifyForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { login, user } = useAuthStore();
+  const [otp, setOtp] = useState<string>("");
   const { replace } = useRouter();
+  const mutate = useMutation({
+    mutationFn: ({ email, token }: { email: string; token: string }) =>
+      authServices.verifyOTP(email, token),
+    onSuccess: () => {
+      setIsLoading(false);
+      login(); //TODO: handle redirects here
+      replace("/");
+    },
+    onError: () => {
+      setIsLoading(false);
+    },
+  });
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   setIsLoading(true);
-  // };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setError("");
+      setIsLoading(true);
+
+      await mutate.mutateAsync({ email: user?.email ?? "", token: otp });
+    } catch (error: any) {
+      setError(error.response?.data?.message ?? "An error occurred");
+      setIsLoading(false);
+    }
+  };
 
   // const handleSignupClick = (e: React.MouseEvent) => {
   //   e.preventDefault();
@@ -35,7 +56,7 @@ export function VerifyForm() {
   // };
 
   return (
-    <form className="space-y-4">
+    <form className="space-y-4" onSubmit={handleSubmit}>
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
@@ -43,10 +64,16 @@ export function VerifyForm() {
         </Alert>
       )}
       <div className="space-y-8">
-        <Label>Enter 6-digit PIN from userEmail</Label>
+        <Label>Enter 6-digit PIN from {user?.email}</Label>
 
         <div className="grid justify-center">
-          <InputOTP maxLength={6}>
+          <InputOTP
+            maxLength={6}
+            value={otp}
+            onChange={(value) => {
+              setOtp(value);
+            }}
+          >
             <InputOTPGroup>
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
@@ -69,6 +96,7 @@ export function VerifyForm() {
         <Button
           variant="link"
           className="p-0 h-auto"
+          disabled
           // onClick={handleSignupClick}
         >
           Click
