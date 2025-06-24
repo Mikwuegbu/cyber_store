@@ -3,7 +3,6 @@ import catchAsync from "../utils/catch_async";
 import User from "../models/user.model";
 import { StatusCodes } from "http-status-codes";
 import { sendEmail } from "../services/email.service";
-import AppError from "../utils/app_error";
 import {
   connectRedis,
   deleteTempData,
