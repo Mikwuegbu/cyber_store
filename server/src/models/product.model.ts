@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema(
     specs: {
       storages: {
         type: [String],
-        enum: ["128GB", "256GB", "512GB", "1TB"],
+        enum: ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"],
       },
       colors: [
         {
