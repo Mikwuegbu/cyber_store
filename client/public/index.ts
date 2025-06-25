@@ -13,6 +13,7 @@ import blackwatch from "./blackwatch.png";
 import galaxy from "./galaxy.png";
 import buds from "./buds.png";
 import ipad from "./ipad.png";
+import playstation_mobile from "./PlayStation.mobile.png";
 
 export const assets = {
   logo,
@@ -30,4 +31,5 @@ export const assets = {
   galaxy,
   buds,
   ipad,
+  playstation_mobile,
 };

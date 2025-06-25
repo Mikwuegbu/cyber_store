@@ -1,29 +1,38 @@
+"use client";
+
 import React from "react";
 import { assets } from "@/public";
 import Image from "next/image";
 import Link from "next/link";
+import { useMobileScreen } from "@/hooks/use-mobile-screen";
 const Hero = () => {
+  const isMobile = useMobileScreen();
+
   return (
     <main>
-      <section className="bg-black flex justify-around items-center px-40 ">
-        <div className="text-white min-w-md p-2 m-4 gap-3 grid justify-start">
-          <p className="text-2xl font-semibold opacity-40 leading-8">
+      {/* Main Hero Section */}
+      <section className="bg-black md:flex md:justify-around items-center pt-6 md:px-40 px-4 ">
+        <div className="text-white md:min-w-md p-2 m-4 gap-4 grid md:justify-start place-items-center md:place-items-start">
+          <p className="text-2xl text-center md:text-justify font-semibold opacity-40 leading-8">
             Pro.Beyond.
           </p>
-          <p className="text-8xl font-[100]">
-            IPhone 14 <span className="font-semibold"> Pro</span>
+          <p className="md:text-8xl text-7xl text-center md:text-justify font-[100]">
+            IPhone 14{" "}
+            <span className="font-semibold">
+              <br className="block md:hidden" /> Pro
+            </span>
           </p>
-          <p className="text-lg font-medium leading-6 text-black opacity-60">
+          <p className="text-lg font-medium leading-6 text-center md:text-justify opacity-60 mb:0 mb-4">
             Created to change everything for the better. For everyone
           </p>
           <Link
             href="/"
-            className="border w-fit rounded-md p-4 px-10 border-white font-medium text-base leading-6"
+            className="border w-fit text-center rounded-md p-4 md:px-10 px-14 border-white font-medium text-base leading-6"
           >
             shop now
           </Link>
         </div>
-        <div>
+        <div className="px-4 md:px-0">
           <Image
             src={assets.hero}
             alt="iphone"
@@ -33,11 +42,12 @@ const Hero = () => {
           />
         </div>
       </section>
-      <section className="grid grid-cols-2">
+      {/* CTO */}
+      <section className="grid md:grid-cols-2">
         <div className="bg-black grid grid-col-2">
-          <div className="bg-white flex items-center">
+          <div className="bg-white md:flex items-center">
             <Image
-              src={assets.playstation}
+              src={isMobile ? assets.playstation_mobile : assets.playstation}
               alt="playstation"
               height={343}
               width={360}
@@ -51,8 +61,8 @@ const Hero = () => {
               </p>
             </div>
           </div>
-          <div className="grid grid-flow-col">
-            <div className="bg-gray-200 flex items-center">
+          <div className="grid md:grid-flow-col">
+            <div className="bg-gray-200 md:flex items-center">
               <Image
                 src={assets.airpod}
                 alt="airpod"
@@ -69,7 +79,7 @@ const Hero = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-gray-black flex items-center">
+            <div className="bg-gray-black md:flex items-center">
               <Image
                 src={assets.applevission}
                 alt="airpod"
