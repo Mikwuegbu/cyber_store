@@ -15,36 +15,42 @@ const orderSchema = new mongoose.Schema(
           ref: "Product", // References the Product schema
           required: true,
         },
-        name: {
-          type: String,
-          required: true,
-        },
         quantity: {
           type: Number,
           required: true,
           min: 1,
         },
-        priceAtPurchase: {
+        price_at_purchase: {
           type: Number,
           required: true,
         },
       },
     ],
-    totalAmount: {
+    total_amount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    shipping_fee: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    estimated_tax: {
       type: Number,
       required: true,
       min: 0,
     },
     status: {
       type: String,
-      enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
-      default: "pending",
+      enum: ["PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"],
+      default: "PENDING",
     },
-    orderDate: {
+    order_date: {
       type: Date,
       default: Date.now,
     },
-    shippingAddress: {
+    shipping_address: {
       street: String,
       city: String,
       state: String,

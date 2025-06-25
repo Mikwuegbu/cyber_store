@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 // --- Review Schema ---
-// Reviews are only available after purchasing the product.
 const reviewSchema = new mongoose.Schema(
   {
     user: {

@@ -22,15 +22,20 @@ export const protect = catchAsync(
     //  Get token from cookie
     let token: string | undefined;
     if (req.signedCookies.accessToken) {
-      token = req.cookies.accessToken;
+      token = req.signedCookies.accessToken;
     }
 
     if (!token) {
       return next(
-        new AppError(
-          "You are not logged in! Please log in to get access.",
-          StatusCodes.UNAUTHORIZED,
-        ),
+        // new AppError(
+        //   "You are not logged in! Please log in to get access.",
+        //   StatusCodes.UNAUTHORIZED,
+        // ),
+
+        res.status(StatusCodes.UNAUTHORIZED).json({
+          status: "error",
+          message: "You are not logged in! Please log in to get access.",
+        }),
       );
     }
 

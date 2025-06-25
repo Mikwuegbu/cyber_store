@@ -41,12 +41,9 @@ const productSchema = new mongoose.Schema(
       ],
     },
     specs: {
-      processor: { type: String },
-      ram: { type: String },
       storages: {
         type: [String],
-        enum: ["128GB", "256GB", "512GB", "1TB"],
-        default: undefined,
+        enum: ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"],
       },
       colors: [
         {
@@ -54,18 +51,19 @@ const productSchema = new mongoose.Schema(
           hex: { type: String },
         },
       ],
-      display: { type: String },
+      screen_size: { type: String },
+      resolution: { type: String },
+      refresh_rate: { type: String },
+      screen_type: { type: String },
       battery: { type: String },
-      camera: { type: String },
+      main_camera: { type: String },
+      front_camera: { type: String },
       connectivity: { type: String },
+      number_of_cores: { type: Number },
       cpu: { type: String },
-      gpu: { type: String },
-      os: { type: String },
-      features: { type: String },
-      warranty: { type: String },
-      lens: { type: String }, // add more as needed later
+      //add more specs as needed
     },
-    instoack: {
+    in_stock: {
       type: Boolean,
       default: true,
     },

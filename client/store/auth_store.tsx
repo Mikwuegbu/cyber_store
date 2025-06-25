@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 type User = {
   email: string;
@@ -31,6 +31,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth", // unique name for localStorage
+      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 );

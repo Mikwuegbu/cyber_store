@@ -3,7 +3,9 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.route";
+import productRoute from "./routes/product.route";
 import { COOKIE_SECRET } from "./configs/env";
+import { protect } from "./middlewares/auth.middleware";
 
 // Express app
 const app = express();
@@ -25,6 +27,7 @@ app.use(cookieParser(COOKIE_SECRET));
 // body parser
 app.use(express.json());
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/product", productRoute);
 
 app.get("/api/v1", (req, res) => {
   res.send("server is running");
