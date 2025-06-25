@@ -27,7 +27,7 @@ app.use(cookieParser(COOKIE_SECRET));
 // body parser
 app.use(express.json());
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/products", productRoute);
+app.use("/api/v1/product", productRoute);
 
 app.get("/api/v1", (req, res) => {
   res.send("server is running");
