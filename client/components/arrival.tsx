@@ -55,7 +55,7 @@ const mockdata = [
 
 export const Arrival = () => {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
       {mockdata.map((item) => (
         <Productcard
           key={item.id}

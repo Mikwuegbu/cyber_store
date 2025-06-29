@@ -27,7 +27,7 @@ const Productshowcase = () => {
   };
 
   return (
-    <div className="md:px-40 px-4 md:py-14">
+    <div className="md:px-40 px-4 md:pb-12">
       <div className="flex justify-around md:justify-start md:gap-8">
         <button
           onClick={() => dispatch({ type: "Arrival" })}
