@@ -27,34 +27,34 @@ const Productshowcase = () => {
   };
 
   return (
-    <div className="px-40 py-14">
-      <div className="flex gap-8">
+    <div className="md:px-40 px-4 md:py-14">
+      <div className="flex justify-around md:justify-start md:gap-8">
         <button
           onClick={() => dispatch({ type: "Arrival" })}
-          className={`hover:cursor-pointer ${
+          className={`hover:cursor-pointer text-nowrap ${
             currentview === "Arrival"
-              ? "font-medium text-lg leading-8 border-b-2 border-black"
-              : "font-medium text-lg leading-8 opacity-60"
+              ? "font-medium md:text-lg leading-8 border-b-2 border-black"
+              : "font-medium md:text-lg leading-8 opacity-60"
           }`}
         >
           New Arrival
         </button>
         <button
           onClick={() => dispatch({ type: "Bestseller" })}
-          className={`hover:cursor-pointer ${
+          className={`hover:cursor-pointer text-nowrap ${
             currentview === "Bestseller"
-              ? "font-medium text-lg leading-8 border-b-2 border-black"
-              : "font-medium text-lg leading-8 opacity-60"
+              ? "font-medium md:text-lg leading-8 border-b-2 border-black"
+              : "font-medium md:text-lg leading-8 opacity-60"
           }`}
         >
           Bestseller
         </button>
         <button
           onClick={() => dispatch({ type: "Feature" })}
-          className={`hover:cursor-pointer ${
+          className={`hover:cursor-pointer text-nowrap ${
             currentview === "Feature"
-              ? "font-medium text-lg leading-8 border-b-2 border-black"
-              : "font-medium text-lg leading-8 opacity-60"
+              ? "font-medium md:text-lg leading-8 border-b-2 border-black"
+              : "font-medium md:text-lg leading-8 opacity-60"
           }`}
         >
           Featured Products

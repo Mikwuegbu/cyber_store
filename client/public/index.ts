@@ -14,6 +14,9 @@ import galaxy from "./galaxy.png";
 import buds from "./buds.png";
 import ipad from "./ipad.png";
 import playstation_mobile from "./PlayStation.mobile.png";
+import googles_mobile from "./googles.mobile.png";
+import macbook_mobile from "./MacBook Pro.mobile.png";
+import airpods_mobile from "./earphone.mobile.png";
 
 export const assets = {
   logo,
@@ -32,4 +35,7 @@ export const assets = {
   buds,
   ipad,
   playstation_mobile,
+  googles_mobile,
+  macbook_mobile,
+  airpods_mobile,
 };

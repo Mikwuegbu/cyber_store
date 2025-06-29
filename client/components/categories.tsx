@@ -22,8 +22,8 @@ const Categories = () => {
   };
 
   return (
-    <main className="py-20 px-40 grid justify-center gap-6">
-      <div className="flex justify-between">
+    <main className="md:py-20 py-12 md:px-40 px-4 md:grid justify-center gap-6">
+      <div className="flex justify-between pb-8 md:pb-0">
         <h2 className="font-medium text-2xl">Browse by category</h2>
         <div className="gap-6 flex">
           <button
@@ -42,7 +42,7 @@ const Categories = () => {
       </div>
       <section
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"
+        className="md:flex gap-4 grid grid-cols-2 overflow-x-auto scroll-smooth no-scrollbar"
       >
         {[
           {
@@ -111,7 +111,7 @@ const Categories = () => {
           <Link
             key={index}
             href={item.link}
-            className="w-[16.66%] flex-shrink-0 h-32 bg-gray-100 rounded-lg p-4 grid place-items-center hover:bg-gray-200 transition-colors"
+            className="md:w-[16.66%] flex-shrink-0 h-32 bg-gray-100 rounded-lg p-4 grid place-items-center hover:bg-gray-200 transition-colors"
           >
             {item.icon}
             <p className="text-center font-medium text-xs opacity-80 mt-2">
