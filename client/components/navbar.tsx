@@ -63,7 +63,7 @@ const NavBar = () => {
   }, [toggleMenu]);
 
   return (
-    <header className="py-4 bg-white md:px-40 px-4">
+    <header className="py-4 bg-white md:px-40 px-4 border-b-2 border-gray-200">
       <nav className="flex justify-between gap-6 md:gap-0 items-center">
         <Link href="/">
           <Image

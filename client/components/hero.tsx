@@ -84,19 +84,18 @@ const Hero = () => {
             </div>
             <div className="bg-gray-black flex md:flex-row flex-col md:justify-around justify-center py-10 md:py-0 items-center md:basis-1/2 gap-4 ">
               <Image
-                // src={assets.applevission}
                 src={isMobile ? assets.googles_mobile : assets.applevission}
                 alt="airpod"
                 height={300}
                 width={300}
-                className="md:w-1/3"
+                className="md:w-1/3 w-1/2"
               />
               <div className="text-white px-2 text-center md:text-justify space-y-2">
                 <p className="font-light text-3xl leading-10">
                   Apple <br className="hidden md:block" />
                   Vision <span className="font-medium">Pro</span>
                 </p>
-                <p className="font-medium text-sm opacity-50 leading-6">
+                <p className="font-medium text-sm opacity-50 leading-6 pr-4">
                   An immersive way to experience entertainment
                 </p>
               </div>
