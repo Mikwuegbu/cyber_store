@@ -18,7 +18,7 @@ export const getProductsByCategory = catchAsync(async (req, res, next) => {
     return next(
       res.status(StatusCodes.NOT_FOUND).json({
         status: "error",
-        message: "No products found in this category",
+        message: "No products found in this category.",
       }),
     );
   }
