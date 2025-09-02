@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 export function useMobileScreen(breakpoint = 640) {
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < breakpoint)
-    }
+      setIsMobile(window.innerWidth < breakpoint);
+    };
 
     // Initial check
-    checkScreenSize()
+    checkScreenSize();
 
     // Add event listener
-    window.addEventListener("resize", checkScreenSize)
+    window.addEventListener("resize", checkScreenSize);
 
     // Clean up
-    return () => window.removeEventListener("resize", checkScreenSize)
-  }, [breakpoint])
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, [breakpoint]);
 
-  return isMobile
+  return isMobile;
 }

@@ -35,7 +35,7 @@ export function AuthModal({ children, title }: Readonly<AuthModalProps>) {
   if (isMobile) {
     return (
       <Sheet open={true} onOpenChange={handleOpenChange}>
-        <SheetContent side="bottom" className="h-[90vh] rounded-t-[10px]">
+        <SheetContent side="bottom" className="h-[70vh] rounded-t-[10px] p-4">
           <SheetHeader>
             <SheetTitle>{title}</SheetTitle>
           </SheetHeader>

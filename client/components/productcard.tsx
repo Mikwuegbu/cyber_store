@@ -1,5 +1,7 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
+import { GoHeart } from "react-icons/go";
+import { useMobileScreen } from "@/hooks/use-mobile-screen";
 
 type Productcardprops = {
   price: number;
@@ -7,21 +9,26 @@ type Productcardprops = {
   image: StaticImageData;
 };
 const Productcard = ({ description, price, image }: Productcardprops) => {
+  const isMobile = useMobileScreen();
+
   return (
-    <section className="bg-gray-100 p-4 rounded-lg gap-4 grid place-items-center min-w-52 w-72">
+    <section className="bg-gray-100 p-4 relative rounded-lg pt-12 gap-4 justify-center grid place-items-center">
       {/* react icon */}
+      <GoHeart size={24} className="absolute top-4 right-4 text-gray-600" />
       <Image
         src={image}
         alt="iphone"
         width={160}
         height={160}
-        className="w-40 h-40"
+        className="size-24 md:size-40"
       />
-      <div className="text-center space-y-4">
-        <p className="font-medium text-lg leading-7"> {description}</p>
-        <p className="font-semibold text-2xl leading-6">$ {price}</p>
+      <div className="text-center md:space-y-4">
+        {isMobile && description.length > 24
+          ? description.slice(0, 24) + "..."
+          : description}
+        <p className="font-semibold text-2xl l</span>eading-6">$ {price}</p>
       </div>
-      <button className="font-medium text-sm leading-6 text-white bg-black py-3 px-16 rounded-xl">
+      <button className="font-medium text-sm leading-6 text-nowrap text-white bg-black py-3 md:px-16 px-10 rounded-lg">
         Buy now
       </button>
     </section>
